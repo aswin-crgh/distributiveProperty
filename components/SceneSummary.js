@@ -33,7 +33,7 @@ const SceneSummary = ({ varOf, onRestart }) => {
           dangerouslySetInnerHTML: { __html: ui.summaryText }
         }))
     ),
-    React.createElement("div", { className: "top-bar" }, React.createElement("span", null, ui.ruleHeader)),
+    React.createElement("div", { className: "top-bar" }, React.createElement("span", null, ui.summaryHeader)),
     React.createElement("div", { className: "bottom-bar" },
       React.createElement("div", { style: { minWidth: "96px" } }),
       React.createElement("div", { className: "bottom-instruction" }, ui.activityCompleted),

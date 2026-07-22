@@ -58,6 +58,7 @@
         concludeInstruction: "Tap » to conclude",
 
         // ---- Scene 8 — summary ----
+        summaryHeader: "Distributive property of multiplication",
         summaryText:
           "In Arithmetic and Algebra,<br/>a product of a sum is equal to sum of products!<br/><br/>" +
           "This applies to subtraction as well –<br/>" +
@@ -122,6 +123,7 @@
         concludeInstruction: "Ketuk » untuk menyimpulkan",
 
         // ---- Scene 8 — summary ----
+        summaryHeader: "Sifat distributif perkalian",
         summaryText:
           "Dalam Aritmetika dan Aljabar,<br/>hasil kali dari sebuah jumlah sama dengan jumlah dari hasil kali!<br/><br/>" +
           "Ini juga berlaku untuk pengurangan –<br/>" +
