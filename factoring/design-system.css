@@ -1,0 +1,222 @@
+/* ============================================================================
+   Appletization Design System — global visual + interaction standards.
+   Use this as the base of your applet's index.css (import or paste, then add
+   only storyboard-specific rules on top). Author everything in absolute
+   1920×1080 px (see ScaleWrapper). Keep readable text ≥ var(--fs-body) = 47px.
+   ============================================================================ */
+
+* { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+
+:root {
+  /* ---- type scale (px, in the 1920×1080 canvas). Sans-serif only. ----
+     47 is the baseline floor; go BIGGER for design/emphasis, and only a touch
+     SMALLER for secondary chrome (running section headers, dense sub-labels). */
+  --fs-hero:   64px;  /* design & emphasis — the biggest text (key statement / takeaway) */
+  --fs-body:   47px;  /* BASELINE FLOOR for readable content (prose, labels, values) */
+  --fs-header: 42px;  /* section headers / running titles — deliberately smaller (secondary chrome) */
+  --fs-long:   40px;  /* unavoidable long strings / dense sub-labels — avoid needing this */
+  --fs-chip:   32px;  /* non-prose glyphs only (stepper arrows, tiny tags) */
+
+  /* ---- neutrals ---- */
+  --bg-0:    #0a2036;                         /* deep base (matches darkbg.png) */
+  --panel:   rgba(4, 18, 32, 0.82);
+  --panel-2: rgba(20, 58, 88, 0.92);
+  --ink:     #eef5fb;                          /* primary text */
+  --ink-dim: #b9cbdb;
+  --line:    rgba(130, 188, 228, 0.42);        /* grid / hairlines */
+  --edge:    rgba(150, 190, 225, 0.28);        /* subtle borders (nav, panels) */
+
+  /* ---- semantic colours (the house palette) ---- */
+  --c-correct:     #58D98B;   /* green  — correctness */
+  --c-wrong:       #FF8F83;   /* salmon — wrongness */
+  --c-interact:    #F5D54D;   /* gold   — interactive controls + the one primary CTA */
+  --c-interact-dk: #caa62a;
+  --header:  var(--c-interact);   /* section headings use the warm interaction highlight */
+  --accent:  var(--c-interact);   /* alias used by the control styles below */
+  --accent-dk: var(--c-interact-dk);
+
+  /* ---- object / highlight ramp — colour = identity. Extend if you need more. ---- */
+  --obj-0:#FF9C6A; /* orange */  --obj-1:#5EB2E7; /* blue   */
+  --obj-2:#FF738C; /* pink   */  --obj-3:#B77FD0; /* purple */
+  --obj-4:#48D1B6; /* aqua   */  --obj-5:#EF6AA9; /* rose   */
+  --obj-6:#FFB84D; /* yellow */  --obj-7:#DEC3A3; /* sand   */
+  --obj-8:#FFFFFF; /* white  */
+
+  /* ---- shared shape tokens (consistency across every control) ---- */
+  --radius:    16px;
+  --radius-lg: 26px;
+  --ease:      cubic-bezier(0.25, 1, 0.5, 1);
+  --dur:       0.3s;
+}
+
+html, body, #root {
+  width: 100vw; height: 100vh; overflow: hidden;
+  background: #000; font-family: Arial, "Segoe UI", "Helvetica Neue", sans-serif; /* sans-serif only */
+}
+
+/* Strokes are ALWAYS round — never rect/butt caps (house style). */
+svg path, svg line, svg polyline { stroke-linecap: round; }
+svg path, svg line, svg polyline, svg polygon { stroke-linejoin: round; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---- page + chrome ---- */
+.page {
+  width: 100%; height: 100%; position: relative;
+  display: flex; flex-direction: column; overflow: hidden;
+  color: var(--ink); animation: fadeIn 0.5s ease;
+  background: url('./assets/images/darkbg.png') center / cover, var(--bg-0);
+}
+.top-bar {
+  flex-shrink: 0; width: 100%; padding: 18px 40px; background: var(--panel);
+  font-size: var(--fs-header); font-weight: bold; color: var(--header);
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  animation: fadeIn 0.4s ease;
+}
+.bottom-bar {
+  flex-shrink: 0; height: 100px; background: var(--panel);
+  display: flex; align-items: center; justify-content: space-between; padding: 0 40px;
+}
+.bottom-instruction { flex: 1; text-align: center; font-size: var(--fs-body); color: var(--ink); }
+
+/* ============================================================================
+   CONTAINERS — nothing floats naked. Sit content in a RAISED PLATFORM (grouped
+   / interactive) or an INSET BOX (readouts / descriptions / secondary content).
+   ============================================================================ */
+.platform {
+  border-radius: var(--radius-lg); padding: 24px 28px;
+  background: linear-gradient(180deg, var(--panel-2), rgba(9,30,50,0.95));
+  border: 1px solid var(--edge);
+  box-shadow: 0 26px 44px -12px rgba(0,0,0,0.6), 0 8px 0 rgba(3,14,26,0.5), inset 0 1px 0 rgba(255,255,255,0.09);
+}
+.inset {
+  border-radius: var(--radius); padding: 16px 26px;
+  background: rgba(0, 10, 22, 0.55);
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(150,190,225,0.10);
+}
+
+/* smooth entry / exit — anything that appears or leaves between states animates,
+   never pops. (For exit, keep the node mounted for the anim duration, then drop.) */
+@keyframes enterIn  { from { opacity: 0; transform: translateY(16px) scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes exitOut  { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(12px) scale(0.98); } }
+.enter { animation: enterIn 0.42s var(--ease) both; }
+.exit  { animation: exitOut 0.30s var(--ease) both; pointer-events: none; }
+
+/* ============================================================================
+   BUTTONS — exactly one loud primary CTA per screen; everything else BG-themed.
+   ============================================================================ */
+
+/* primary call-to-action (Start / Explore) — the single prominent button */
+.btn-primary {
+  font-size: var(--fs-body); font-weight: bold; color: #111;
+  background: linear-gradient(to bottom, #FBE27A, var(--accent));
+  border: 3px solid var(--accent); border-radius: 20px;
+  height: 92px; padding: 0 54px; cursor: pointer; position: relative;
+  display: inline-flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 0 var(--accent-dk), 0 10px 24px rgba(0,0,0,0.4);
+  transition: filter var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.btn-primary:hover { filter: brightness(1.06); }
+.btn-primary:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--accent-dk); }
+
+/* navigation (« ») + secondary actions — BACKGROUND-THEMED: translucent, subtly
+   bordered, blends into the backdrop rather than reading as a chunky button. */
+.btn-nav {
+  font-size: var(--fs-header); font-weight: bold; color: var(--ink-dim);
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid var(--edge); border-radius: var(--radius);
+  min-width: 96px; height: 70px; padding: 0 24px; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.btn-nav:hover { background: rgba(255,255,255,0.11); border-color: rgba(150,190,225,0.55); color: var(--ink); }
+.btn-nav:disabled, .btn-nav.disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* ---- steppers (▲ ▼) ---- */
+.stepper { display: inline-flex; flex-direction: column; gap: 8px; }
+.stepper-btn {
+  width: 62px; height: 42px; border: none; border-radius: 10px;
+  background: linear-gradient(to bottom, #FBE27A, var(--accent));
+  color: #111; font-size: var(--fs-chip); cursor: pointer;
+  box-shadow: 0 3px 0 var(--accent-dk);
+}
+.stepper-btn.disabled { background: gray; opacity: 0.5; box-shadow: none; filter: grayscale(1); cursor: not-allowed; }
+
+/* ---- slider (consistent track + thumb; use for continuous / wide ranges) ---- */
+.slider {
+  -webkit-appearance: none; appearance: none;
+  width: 320px; height: 12px; border-radius: 6px;
+  background: rgba(255,255,255,0.14); outline: none; cursor: pointer;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(to bottom, #FBE27A, var(--accent));
+  border: 3px solid rgba(255,255,255,0.25); box-shadow: 0 3px 8px rgba(0,0,0,0.5); cursor: pointer;
+}
+.slider::-moz-range-thumb {
+  width: 40px; height: 40px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.25);
+  background: linear-gradient(to bottom, #FBE27A, var(--accent)); cursor: pointer;
+}
+
+/* ---- value read-out box ---- */
+.value-box {
+  min-width: 104px; height: 76px; padding: 0 16px;
+  background: #fff; color: #14212b; border: 3px solid #d8e2ea; border-radius: 14px;
+  font-size: var(--fs-body); font-weight: bold;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+
+/* ---- elevated control panel (platform look) ---- */
+.control-panel {
+  position: absolute; z-index: 3; display: flex; flex-direction: column; gap: 30px;
+  padding: 30px 22px 34px; border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, var(--panel-2), rgba(9,30,50,0.95));
+  border: 1px solid var(--edge);
+  box-shadow: 0 26px 44px -12px rgba(0,0,0,0.65), 0 8px 0 rgba(3,14,26,0.55), inset 0 1px 0 rgba(255,255,255,0.09);
+}
+.ctrl-group { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.ctrl-label { font-size: var(--fs-body); font-weight: bold; text-align: center; line-height: 1.2; color: var(--ink); }
+.ctrl-row {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  background: rgba(6,26,44,0.55); border-radius: 18px; padding: 14px;
+}
+.ctrl-var { font-size: var(--fs-body); font-weight: bold; white-space: nowrap; flex-shrink: 0; }
+
+/* ---- description bubbles: hug the text + centre, no dead space ---- */
+.desc-boxes {
+  position: absolute; z-index: 3; display: grid;
+  grid-template-columns: max-content max-content max-content; justify-content: center;
+  gap: 12px 16px; align-items: stretch; animation: fadeIn 0.4s ease;
+}
+.desc-row { display: contents; }
+.desc-cell {
+  padding: 14px 34px; border-radius: 14px; font-size: var(--fs-body);
+  display: flex; align-items: center; justify-content: center; line-height: 1.15;
+}
+.desc-cell .cell-inner { text-align: center; }        /* single inner span → no whitespace collapse */
+.desc-row.template .desc-cell { background: rgba(120,150,175,0.30); color: #dce8f2; }
+.desc-row.active   .desc-cell { background: rgba(0,10,22,0.82); color: #fff; }
+
+/* ============================================================================
+   HERO label — the single key takeaway, in a gently pulsing box.
+   ============================================================================ */
+.hero-label {
+  position: absolute; z-index: 2; transform: translateX(-50%); white-space: nowrap;
+  font-size: var(--fs-body); font-weight: 800; font-style: italic; color: #fff;
+  padding: 12px 30px; border-radius: 18px; background: rgba(4,18,32,0.90);
+  border: 2px solid rgba(130,195,240,0.40);
+  box-shadow: 0 0 14px rgba(120,190,240,0.25), 0 6px 18px rgba(0,0,0,0.45);
+  animation: heroIn 0.45s ease, heroPulse 1.9s ease-in-out infinite;
+}
+.hero-label.tight { font-size: var(--fs-long); padding: 10px 24px; }
+@keyframes heroIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes heroPulse {  /* mild breathe + glow; translateX kept so it stays centred */
+  0%, 100% { transform: translateX(-50%) scale(1);     box-shadow: 0 0 12px rgba(120,190,240,0.22), 0 6px 18px rgba(0,0,0,0.45); }
+  50%      { transform: translateX(-50%) scale(1.035); box-shadow: 0 0 32px rgba(130,200,245,0.55), 0 6px 18px rgba(0,0,0,0.45); }
+}
+
+/* ---- scene primitives ---- */
+.scene-svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+.grid-line { stroke: var(--line); stroke-width: 1; }
+
+/* re-usable finger-tap nudge on a primary CTA */
+.finger-tap-gif { position: absolute; right: -18px; bottom: -18px; width: 66px; pointer-events: none; }

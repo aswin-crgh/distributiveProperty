@@ -1,0 +1,291 @@
+@import url('./design-system.css');
+
+/* ============================================================================
+   Factoring (HCF) — storyboard-specific styles on top of the design system.
+   Many primitives are shared with the sister "distributive property" applet
+   (tiles, board-frame, equation bar, hero/info bubbles) since both are built
+   on the same rectangle-area manipulative vocabulary.
+   Everything authored in absolute 1920×1080 px.
+   ============================================================================ */
+
+/* ---- INTRO (scene 1) ---- */
+.intro-content { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:76px; padding:40px; }
+.intro-card {
+  background:rgba(92,130,158,0.34); border-radius:30px; padding:52px 96px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.10);
+}
+.intro-statement { font-size:var(--fs-hero); line-height:1.45; text-align:center; color:#eaf3fb; }
+.intro-statement b { color:#fff; letter-spacing:1px; }
+
+/* canvas pages: stage is absolute behind, so pin the two bars to top & bottom */
+.canvas-page { justify-content:space-between; }
+.canvas-page .top-bar, .canvas-page .bottom-bar { position:relative; z-index:5; }
+
+/* ---- The board stage: full canvas area under the top bar ---- */
+.stage { position:absolute; inset:0; z-index:1; overflow:hidden; }
+
+/* dark board frame (the container the tiles live in) */
+.board-frame {
+  position:absolute; border-radius:22px;
+  background:rgba(3,16,30,0.55);
+  box-shadow:inset 0 2px 10px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(150,190,225,0.10);
+  transition:all .55s var(--ease), box-shadow .4s var(--ease), background .4s var(--ease);
+}
+.board-frame.tappable { cursor:pointer; }
+.board-frame.highlight {
+  background:rgba(78,86,52,0.45);
+  box-shadow:inset 0 2px 10px rgba(0,0,0,0.4), 0 0 0 3px rgba(245,213,77,0.6), 0 0 34px rgba(245,213,77,0.35);
+}
+.board-frame.dim { opacity:0.9; filter:saturate(0.75) brightness(0.82); }
+
+/* ---- unit / term tile ---- */
+.tile {
+  position:absolute; border-radius:9px;
+  transition:left .55s var(--ease), top .55s var(--ease), width .55s var(--ease),
+             height .55s var(--ease), opacity .45s var(--ease), transform .5s var(--ease),
+             background .45s var(--ease);
+  box-shadow:0 6px 13px rgba(0,0,0,0.34);
+}
+/* while actively being dragged: no transition lag, sits above everything */
+.tile.dragging { transition:none; z-index:20; cursor:grabbing; box-shadow:0 16px 28px rgba(0,0,0,0.5); }
+.tile.draggable { cursor:grab; }
+.tile.draggable:hover { filter:brightness(1.08); }
+
+.pool-tile { cursor:pointer; }
+
+/* dashed drop-zone: idle = neutral pulsing outline; hot = solid coloured accept state */
+.dropzone {
+  position:absolute; border:3px dashed rgba(210,220,230,0.55); border-radius:8px;
+  transition:all .25s var(--ease); z-index:2; pointer-events:none;
+  animation:dzPulse 1.5s ease-in-out infinite;
+}
+@keyframes dzPulse { 0%,100% { opacity:0.5; } 50% { opacity:0.95; } }
+.dropzone.hot {
+  border-style:solid; border-color:var(--c-interact); background:rgba(245,213,77,0.20);
+  animation:none; opacity:1;
+}
+
+/* ---- labels ---- */
+.strip-label {
+  position:absolute; font-size:var(--fs-body); font-weight:bold; text-align:center;
+  transform:translateX(-50%); transition:all .5s var(--ease); z-index:4;
+}
+.dim-label {
+  position:absolute; font-size:var(--fs-body); font-weight:bold; color:var(--ink);
+  transition:all .5s var(--ease); z-index:4;
+}
+.dim-var { font-family:"Times New Roman", Georgia, serif; font-style:italic; font-weight:bold; }
+
+/* the "value on board = …" pill */
+.value-readout {
+  position:absolute; z-index:4; padding:14px 34px; border-radius:20px;
+  background:rgba(20,34,20,0.72); color:#dfe7dd; font-size:var(--fs-body); font-weight:bold;
+  white-space:nowrap; box-shadow:inset 0 0 0 1px rgba(160,190,150,0.16), 0 8px 20px rgba(0,0,0,0.35);
+  transition:all .5s var(--ease);
+}
+
+/* rectangle-explainer bubble */
+.rep-bubble {
+  position:absolute; z-index:5; padding:20px 34px; border-radius:22px; text-align:center;
+  background:rgba(92,130,158,0.42); color:#fff; font-size:var(--fs-body); line-height:1.15; text-wrap:balance;
+  box-shadow:0 10px 26px rgba(0,0,0,0.4);
+}
+
+/* ---- legend (scene 2): "1" = unit square, "1 m" = term tile ---- */
+.legend-box {
+  position:absolute; z-index:4; display:flex; flex-direction:column; gap:14px; align-items:flex-start;
+}
+.legend-row { display:flex; align-items:center; gap:16px; }
+.legend-eq { font-size:var(--fs-body); font-weight:bold; color:var(--ink); }
+.legend-label { font-size:var(--fs-body); font-weight:bold; color:var(--ink); line-height:1.05; }
+.legend-label .unit { display:block; }
+.legend-label .varname { font-family:"Times New Roman", Georgia, serif; font-style:italic; }
+
+/* ---- action buttons (Rearrange / Duplicate / Reveal Area) ---- */
+.btn-action {
+  font-size:var(--fs-hero); font-weight:bold; color:#3a2600;
+  background:linear-gradient(to bottom, #E9A54B, #B06E14);
+  border:3px solid #7c4d0c; border-radius:22px;
+  padding:22px 46px; cursor:pointer; position:relative;
+  box-shadow:0 7px 0 #5f3a08, 0 12px 26px rgba(0,0,0,0.42);
+  transition:filter var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.btn-action.small { font-size:var(--fs-body); padding:18px 40px; }
+.btn-action:hover { filter:brightness(1.08); }
+.btn-action:active { transform:translateY(3px); box-shadow:0 4px 0 #5f3a08; }
+.action-caption { font-size:var(--fs-body); line-height:1.2; text-align:center; color:#eaf3fb; }
+
+/* toggle buttons (Distribute / Factor) — bg-themed until "used", gold once tried */
+.btn-toggle {
+  font-size:var(--fs-body); font-weight:bold; color:var(--ink);
+  background:linear-gradient(180deg, rgba(60,70,80,0.7), rgba(30,38,46,0.85));
+  border:2px solid rgba(150,190,225,0.35); border-radius:20px;
+  padding:20px 40px; cursor:pointer; position:relative;
+  box-shadow:0 6px 0 rgba(10,14,18,0.6), 0 10px 22px rgba(0,0,0,0.4);
+  transition:filter var(--dur) var(--ease), transform var(--dur) var(--ease), background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.btn-toggle:hover { filter:brightness(1.1); }
+.btn-toggle:active { transform:translateY(3px); box-shadow:0 3px 0 rgba(10,14,18,0.6); }
+.btn-toggle.tried { border-color:rgba(245,213,77,0.55); }
+.btn-toggle.active {
+  background:linear-gradient(to bottom, #E9A54B, #B06E14); color:#3a2600;
+  border-color:#7c4d0c; box-shadow:0 6px 0 #5f3a08, 0 10px 22px rgba(0,0,0,0.4);
+}
+
+/* ---- equation bar ---- */
+.eq-wrap {
+  position:absolute; z-index:4; display:flex; align-items:center; justify-content:center;
+  gap:26px; width:100%; left:0;
+}
+.eq-side {
+  display:flex; align-items:center; gap:0;
+  padding:16px 30px; border-radius:44px; background:rgba(40,58,40,0.34);
+  font-size:84px; font-weight:bold; color:#fff; transition:opacity .5s var(--ease), background .5s var(--ease);
+}
+.eq-side.ghost { color:rgba(210,225,240,0.28); }
+.eq-side.ghost .eq-chip { background:transparent; box-shadow:none; }
+.eq-side.dimmed { opacity:0.34; }
+.eq-eq { font-size:84px; font-weight:bold; color:#fff; }
+.eq-chip {
+  display:inline-flex; align-items:center; justify-content:center; min-width:64px; padding:2px 14px;
+  border-radius:22px; position:relative; transition:background .4s var(--ease);
+}
+.eq-chip.blue  { background:rgba(94,178,231,0.24);  color:var(--obj-1); }
+.eq-chip.amber { background:rgba(255,184,77,0.22);  color:var(--obj-6); }
+.eq-chip.tappable { cursor:pointer; box-shadow:0 0 0 2px rgba(245,213,77,0.0); }
+.eq-chip.tappable:hover { box-shadow:0 0 0 3px rgba(245,213,77,0.55); }
+.eq-var { font-family:"Times New Roman", Georgia, serif; font-style:italic; font-weight:bold; }
+
+/* ---- info / hero bubbles ---- */
+.info-bubble {
+  position:absolute; z-index:5; transform:translateX(-50%); text-align:center;
+  padding:22px 40px; border-radius:24px; font-size:var(--fs-body); line-height:1.2; color:#fff;
+  background:rgba(6,26,46,0.82); box-shadow:inset 0 0 0 1px rgba(150,190,225,0.14), 0 12px 30px rgba(0,0,0,0.45);
+}
+.info-bubble.hero {
+  font-weight:800; background:rgba(8,30,52,0.92);
+  border:2px solid rgba(130,195,240,0.4);
+  box-shadow:0 0 18px rgba(120,190,240,0.3), 0 12px 30px rgba(0,0,0,0.5);
+  animation:heroIn .45s ease, heroPulseC 2.1s ease-in-out infinite;
+}
+@keyframes heroPulseC {
+  0%,100% { transform:translateX(-50%) scale(1);     box-shadow:0 0 16px rgba(120,190,240,0.26), 0 12px 30px rgba(0,0,0,0.5); }
+  50%     { transform:translateX(-50%) scale(1.03);  box-shadow:0 0 34px rgba(130,200,245,0.55), 0 12px 30px rgba(0,0,0,0.5); }
+}
+
+/* ---- steps list (scene 5) ---- */
+.step-row {
+  position:absolute; border-radius:20px; padding:20px 30px; display:flex; align-items:center; gap:0;
+  background:rgba(6,26,46,0.55); transition:all .4s var(--ease);
+}
+.step-num { font-size:var(--fs-body); font-weight:bold; color:#5b7ea0; flex-shrink:0; width:180px; transition:color .4s var(--ease); }
+.step-row.active .step-num { color:var(--obj-1); }
+.step-body {
+  border-radius:16px; padding:16px 26px; font-size:var(--fs-body); font-weight:bold; line-height:1.25;
+  background:rgba(4,18,32,0.7); color:#7791a4; flex:1; text-align:center; transition:all .4s var(--ease);
+}
+.step-row.filled .step-body { color:#fff; }
+.step-row.active .step-body { box-shadow:0 0 0 2px rgba(245,213,77,0.35); }
+
+/* the dashed, pulsing tap target — the right-side expression, matching the deck
+   (never the left step list) */
+.tap-target-wrap { cursor:pointer; padding:14px 10px; }
+.tap-target-wrap .eq-side {
+  border:3px dashed var(--c-interact); animation:tapPulse 1.4s ease-in-out infinite;
+}
+/* pulse a just-revealed result 3 times before an overlay interrupts — keeps the
+   reveal readable instead of losing it under an immediate overlay */
+@keyframes pulse3x {
+  0%, 100% { transform:scale(1); filter:brightness(1); }
+  50%      { transform:scale(1.08); filter:brightness(1.35); }
+}
+.pulse-3x { animation:pulse3x 0.75s ease-in-out 3; display:inline-block; }
+
+@keyframes tapPulse {
+  0%,100% { box-shadow:0 0 0 0 rgba(245,213,77,0.0); }
+  50%     { box-shadow:0 0 22px 4px rgba(245,213,77,0.35); }
+}
+
+/* ---- summary card (scene 7 + rectangle-sides caption) ---- */
+.summary-wrap { position:absolute; z-index:4; left:0; width:100%; display:flex; justify-content:center; }
+.summary-card {
+  text-align:center;
+  padding:36px 60px; border-radius:30px; font-size:var(--fs-body); line-height:1.4; color:#eef5fb;
+  background:rgba(92,130,158,0.30); box-shadow:0 12px 32px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.08);
+  max-width:1200px;
+}
+
+/* two-panel summary (Distributed Form / Factor Form) */
+.panel-pair { position:absolute; z-index:4; display:flex; align-items:stretch; gap:24px; }
+.panel {
+  flex:1; display:flex; flex-direction:column; border-radius:22px; overflow:hidden;
+  box-shadow:0 14px 30px rgba(0,0,0,0.4);
+}
+.panel-title {
+  padding:26px; font-size:var(--fs-header); font-weight:800; text-align:center; color:#fff;
+  background:rgba(4,18,32,0.85); flex-shrink:0;
+}
+.panel-body {
+  padding:28px 40px; font-size:var(--fs-body); line-height:1.4; color:#eaf3fb; text-align:center;
+  background:rgba(92,130,158,0.30); flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
+  text-wrap:balance;
+}
+
+/* compact 4-step recap embedded in the Factor Form summary panel — a dense
+   sub-label list, so it deliberately uses --fs-long (see design-system.css)
+   rather than the fs-body floor, to fit all 4 rows above the bottom bar */
+.mini-steps { display:flex; flex-direction:column; gap:8px; width:100%; flex-shrink:0; }
+.mini-step { display:flex; align-items:center; gap:14px; border-radius:12px; padding:9px 18px; background:rgba(4,18,32,0.55); }
+.mini-step .n { font-size:var(--fs-long); font-weight:bold; color:var(--obj-1); flex-shrink:0; width:140px; text-align:right; white-space:nowrap; }
+.mini-step .t { font-size:var(--fs-long); line-height:1.2; color:#fff; text-align:left; flex:1; text-wrap:balance; }
+
+/* bottom bar: next button on the right */
+.bottom-next { display:flex; align-items:center; }
+.soft-in { animation:enterIn .5s var(--ease) both; }
+
+/* nav / toggle buttons: tinted, a touch button-ey */
+.btn-nav {
+  color:var(--ink);
+  background:linear-gradient(180deg, rgba(74,116,158,0.55), rgba(38,68,102,0.6));
+  border:2px solid rgba(150,190,225,0.5);
+  box-shadow:0 4px 0 rgba(9,28,48,0.55), 0 7px 16px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.12);
+}
+.btn-nav:hover { filter:brightness(1.12); background:linear-gradient(180deg, rgba(88,132,175,0.62), rgba(46,80,116,0.66)); border-color:rgba(170,205,235,0.7); color:#fff; }
+.btn-nav:active { transform:translateY(2px); box-shadow:0 2px 0 rgba(9,28,48,0.55), 0 4px 10px rgba(0,0,0,0.34); }
+.btn-nav:disabled, .btn-nav.disabled { opacity:0.35; cursor:not-allowed; filter:none; }
+
+/* the "2" arc-jumping out of the bracket (factoring out the HCF) */
+@keyframes arcHop {
+  0%   { transform:translate(var(--dx), var(--dy)); }
+  50%  { transform:translate(calc(var(--dx) / 2), calc(var(--dy) - 70px)); }
+  100% { transform:translate(0, 0); }
+}
+.arc-hop { animation:arcHop .62s var(--ease) both; }
+
+/* a fresh grid row / term dilating in as a step builds */
+@keyframes rowGrow { from { opacity:0; transform:scaleY(0.1); } to { opacity:1; transform:scaleY(1); } }
+.row-grow { transform-box:fill-box; transform-origin:top center; animation:rowGrow .42s var(--ease) both; }
+
+/* ============================================================================
+   Dismissable overlay cards (the two HCF-callback beats)
+   ============================================================================ */
+.overlay-scrim {
+  position:absolute; inset:0; z-index:10; cursor:pointer;
+  background:rgba(2,10,20,0.55); backdrop-filter:blur(1.5px);
+  display:flex; align-items:center; justify-content:center;
+  animation:fadeIn .3s ease;
+}
+.overlay-card {
+  max-width:1100px; padding:44px 60px; border-radius:28px; text-align:center;
+  background:rgba(10,34,58,0.96); color:#fff; font-size:var(--fs-body); line-height:1.35; font-weight:600; text-wrap:balance;
+  border:2px solid rgba(245,213,77,0.5);
+  box-shadow:0 0 40px rgba(245,213,77,0.25), 0 20px 50px rgba(0,0,0,0.55);
+  animation:overlayIn .38s var(--ease) both;
+  cursor:default;
+}
+@keyframes overlayIn { from { opacity:0; transform:scale(0.88) translateY(14px); } to { opacity:1; transform:none; } }
+.overlay-tap-hint { display:inline-block; margin-top:6px; font-size:var(--fs-long); font-weight:500; color:#b9cbdb; }
+.overlay-mini-rect { position:relative; width:100%; height:220px; margin-bottom:10px; }
+
+/* generic smooth appear */
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
