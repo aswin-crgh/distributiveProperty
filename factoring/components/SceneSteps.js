@@ -126,7 +126,7 @@ const SceneSteps = ({ onNext }) => {
       style: { left: RX + "px", top: R1 + "px", background: "transparent", boxShadow: "none", fontSize: "60px", fontWeight: 800, opacity: hcfFly ? 0 : 1, whiteSpace: "nowrap" }
     },
       React.createElement("span", { className: !hcfFly ? "soft-in" : "", style: { display: "inline-block" } },
-        React.createElement("span", null, "HCF("),
+        React.createElement("span", null, ui.hcfLabel + "("),
         React.createElement("span", { className: hcfNumCls, style: { color: TERM_COLOR, display: "inline-block" } }, String(M_COEF)),
         React.createElement("span", null, ", "),
         React.createElement("span", { className: hcfNumCls, style: { color: UNIT_COLOR, display: "inline-block" } }, String(CONST)),
@@ -179,7 +179,7 @@ const SceneSteps = ({ onNext }) => {
 
   return React.createElement("div", { className: "page canvas-page" },
     React.createElement("div", { className: "stage" }, els),
-    overlay2 ? React.createElement(Overlay, { onDismiss: dismissOverlay2 },
+    overlay2 ? React.createElement(Overlay, { onDismiss: dismissOverlay2, width: 1090 },
       React.createElement("div", { className: "overlay-mini-rect" },
         Rectangle({ x: 320, y: 60, u: 44, mw: 96, rows: HCF, mPerRow: M_PER_ROW, cPerRow: C_PER_ROW, gap: 5, labels: "full" })
       ),

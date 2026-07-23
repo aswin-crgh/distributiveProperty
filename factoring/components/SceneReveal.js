@@ -142,7 +142,7 @@ const SceneReveal = ({ onNext }) => {
 
   return React.createElement("div", { className: "page canvas-page" },
     React.createElement("div", { className: "stage" }, els),
-    sub === "overlay1" ? React.createElement(Overlay, { onDismiss: dismissOverlay1 },
+    sub === "overlay1" ? React.createElement(Overlay, { onDismiss: dismissOverlay1, width: 960 },
       React.createElement("div", { dangerouslySetInnerHTML: { __html: ui.overlay1Text } })
     ) : null,
     React.createElement("div", { className: "top-bar" }, React.createElement("span", null, header)),

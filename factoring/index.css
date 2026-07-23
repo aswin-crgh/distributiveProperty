@@ -186,7 +186,7 @@
   position:absolute; border-radius:20px; padding:20px 30px; display:flex; align-items:center; gap:0;
   background:rgba(6,26,46,0.55); transition:all .4s var(--ease);
 }
-.step-num { font-size:var(--fs-body); font-weight:bold; color:#5b7ea0; flex-shrink:0; width:180px; transition:color .4s var(--ease); }
+.step-num { font-size:var(--fs-body); font-weight:bold; color:#5b7ea0; flex-shrink:0; width:260px; white-space:nowrap; transition:color .4s var(--ease); }
 .step-row.active .step-num { color:var(--obj-1); }
 .step-body {
   border-radius:16px; padding:16px 26px; font-size:var(--fs-body); font-weight:bold; line-height:1.25;
@@ -278,12 +278,19 @@
    Dismissable overlay cards (the two HCF-callback beats)
    ============================================================================ */
 .overlay-scrim {
-  position:absolute; inset:0; z-index:10; cursor:pointer;
-  background:rgba(2,10,20,0.55); backdrop-filter:blur(1.5px);
+  position:absolute; top:0; left:0; bottom:0; width:100%; z-index:10; cursor:pointer;
   display:flex; align-items:center; justify-content:center;
   animation:fadeIn .3s ease;
 }
+/* separate layer from the card so a left-confined overlay (see Overlay.js's
+   `width` prop) can mask ONLY the darkening + blur out at its right edge —
+   a soft taper instead of a hard seam — without fading the card itself */
+.overlay-backdrop {
+  position:absolute; inset:0; z-index:0;
+  background:rgba(2,10,20,0.55); backdrop-filter:blur(1.5px);
+}
 .overlay-card {
+  position:relative; z-index:1;
   max-width:1100px; padding:44px 60px; border-radius:28px; text-align:center;
   background:rgba(10,34,58,0.96); color:#fff; font-size:var(--fs-body); line-height:1.35; font-weight:600; text-wrap:balance;
   border:2px solid rgba(245,213,77,0.5);

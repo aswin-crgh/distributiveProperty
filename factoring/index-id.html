@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memfaktorkan sebuah ekspresi — kebalikan dari mendistribusikan</title>
+  <script src="./react/react.development.js"></script>
+  <script src="./react/react-dom.development.js"></script>
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+  <div id="root"></div>
+  <script>window.CURRENT_LANGUAGE = "id";</script>
+
+  <!-- Script order IS the dependency graph: a file must load after everything it references. -->
+  <script src="./constants.js"></script>
+  <script src="./audio.js"></script>
+  <script src="./data.js"></script>
+  <script src="./components/ScaleWrapper.js"></script>
+  <script src="./components/Tile.js"></script>
+  <script src="./components/Overlay.js"></script>
+  <script src="./components/Rectangle.js"></script>
+  <script src="./components/IntroScreen.js"></script>
+  <script src="./components/SceneScatter.js"></script>
+  <script src="./components/SceneDrag.js"></script>
+  <script src="./components/SceneReveal.js"></script>
+  <script src="./components/SceneSteps.js"></script>
+  <script src="./components/SceneLoop.js"></script>
+  <script src="./components/SceneSummary.js"></script>
+  <script src="./App.js"></script>
+  <script src="./main.js"></script>
+</body>
+</html>

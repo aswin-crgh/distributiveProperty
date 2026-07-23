@@ -8,6 +8,7 @@
       ui: {
         exploreButton: "Explore visually",
         next: "»",
+        hcfLabel: "HCF",
 
         // ---- Scene 1 — intro ----
         introStatement:
@@ -86,6 +87,93 @@
         summaryInstruction: "Tap » to see the steps of converting from one form to another",
         activityCompleted: "Activity Completed",
         startOver: "Start Over"
+      }
+    },
+
+    id: {
+      title: "Memfaktorkan sebuah ekspresi — kebalikan dari mendistribusikan",
+      ui: {
+        exploreButton: "Eksplorasi visual",
+        next: "»",
+        hcfLabel: "FPB",
+
+        // ---- Scene 1 — intro ----
+        introStatement:
+          "Terkadang, akan lebih mudah bila kita menuliskan<br/>" +
+          "suatu ekspresi sebagai hasil kali faktor,<br/>" +
+          "bukan suku-suku terpisah — supaya lebih sederhana.<br/><br/>" +
+          "Kita memakai sifat distributif untuk menuliskan<br/>" +
+          "jumlah hasil kali sebagai hasil kali dari suatu jumlah.",
+        introInstruction: "Ketuk ‘Eksplorasi’ untuk mulai",
+
+        // ---- Scene 2 — scatter + rearrange ----
+        scatterHeader: "Berapa nilai di papan?",
+        legendUnit: "1",
+        legendTerm: "1 m",
+        rearrangeBtn: "Rapikan",
+        scatterInstruction: "Ketuk ‘Rapikan’ untuk membantu kita berhitung",
+        valueOnBoard: "nilai di papan = ",
+        duplicateText: "buat salinan papan,<br/>untuk ditata ulang dengan cara berbeda",
+        duplicateBtn: "Gandakan",
+        duplicateInstruction: "Ketuk ‘Gandakan’ untuk menata ulang papan",
+
+        // ---- Scene 3 — drag to rectangle ----
+        dragHeader: "Tata ulang nilai-nilai di papan untuk membentuk persegi panjang",
+        dragInstruction: "Seret dan lepas untuk memindahkan potongan-potongannya",
+
+        // ---- Scene 4 — reveal dimensions + area ----
+        revealInstruction: "Ketuk persegi panjang untuk melihat panjang sisi-sisinya",
+        overlay1Text: "Angka 2 di sini adalah faktor dari 4 dan 6 — bilangan pada suku-suku ekspresi kita!<br/><br/><span class=\"overlay-tap-hint\">Ketuk di mana saja untuk melanjutkan</span>",
+        rectangleSidesText: "Panjang sisi 2 dan ( 2 m + 3 ).<br/>Luas = nilai di papan!",
+        revealAreaBtn: "Tampilkan Luas",
+        revealAreaInstruction: "Ketuk ‘Tampilkan’ untuk menyatakan nilai sebagai luas persegi panjang",
+        sameValueHeader: "Sekarang kita punya nilai yang sama di papan, dinyatakan dengan 2 cara berbeda!",
+        algebraInstruction: "Ketuk » untuk menjelajahi ini secara aljabar",
+
+        // ---- Scene 5 — 4-step HCF walkthrough ----
+        stepsHeader: "Langkah-langkah mengubah ekspresi belum difaktorkan menjadi bentuk faktor…",
+        step1Label: "Langkah 1:",
+        step2Label: "Langkah 2:",
+        step3Label: "Langkah 3:",
+        step4Label: "Langkah 4:",
+        step1Text: "Identifikasi koefisien<br/>dan konstanta",
+        step2Text: "Cari FPB dari koefisien<br/>dan konstanta",
+        step3Text: "Tulis ulang ekspresi<br/>sebagai jumlah hasil kali",
+        step4Text: "Keluarkan FPB-nya,<br/>tambahkan kurung pada suku-suku",
+        step1Short: "Identifikasi koefisien dan konstanta",
+        step2Short: "Cari FPB",
+        step3Short: "Tulis ulang sebagai jumlah hasil kali",
+        step4Short: "Keluarkan FPB-nya",
+        step1Instruction: "Ketuk ekspresi untuk melihat Langkah 1",
+        step2Instruction: "Ketuk teks yang disorot untuk melihat langkah 2",
+        step3Instruction: "Ketuk teks yang disorot untuk melihat langkah 3",
+        step4Instruction: "Ketuk teks yang disorot untuk melihat langkah 4",
+        overlay2Text: "Lihat — ini adalah FPB 2, yang menjadi salah satu sisi persegi panjang!<br/>Luas persegi panjang tidak lain adalah hasil kali faktor-faktornya!<br/><br/><span class=\"overlay-tap-hint\">Ketuk di mana saja untuk melanjutkan</span>",
+        stepsDoneInstruction: "Ketuk » untuk melihat distribusi dan pemfaktoran beraksi",
+
+        // ---- Scene 6 — distribute/factor loop + summary ----
+        loopHeader: "Distribusi dan Pemfaktoran menyatakan nilai yang sama dalam bentuk berbeda!",
+        distributeBtn: "Distribusikan",
+        factorBtn: "Faktorkan Suku-sukunya",
+        loopInstructionStart: "Ketuk ‘Distribusikan’ atau ‘Faktorkan’",
+        loopInstructionOne: "Ketuk tombol yang lain, atau » untuk merangkum",
+        loopInstructionDone: "Ketuk » untuk merangkum",
+        summariseHeader: "Distribusi dan Pemfaktoran menyatakan nilai yang sama dalam bentuk berbeda!",
+
+        // ---- Scene 7 — summary ----
+        distributedFormTitle: "Bentuk Terdistribusi",
+        factorFormTitle: "Bentuk Faktor",
+        distributedFormText:
+          "Ekspresi dituliskan sebagai jumlah atau selisih dari hasil kali (di mana setiap " +
+          "hasil kali berupa bilangan untuk suku konstanta, atau bilangan dikali variabel)",
+        factorFormText:
+          "Ekspresi dituliskan sebagai faktor, yaitu FPB dari suku-suku, dikalikan dengan " +
+          "jumlah atau selisih suku-suku yang dituliskan dalam kurung.",
+        distributedFormText2: "Bentuk faktor bisa 'diuraikan' dengan mengalikan faktornya dengan setiap suku di dalam kurung.",
+        factorFormText2: "Bentuk terdistribusi bisa difaktorkan dalam 4 langkah:",
+        summaryInstruction: "Ketuk » untuk melihat langkah-langkah mengubah dari satu bentuk ke bentuk lainnya",
+        activityCompleted: "Aktivitas Selesai",
+        startOver: "Mulai Ulang"
       }
     }
   };
