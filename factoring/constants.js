@@ -27,8 +27,6 @@ const U     = 80;     // unit-square side
 const MW    = 170;    // "m" tile width (fixed; not a clean multiple of U — it's a
                        // variable, never meant to read as "exactly N units wide")
 const GAP2  = 8;       // gap between contiguous tiles in board layouts
-const POOL_U  = U;      // scattered-pool unit-square size — matches the rest of the applet
-const POOL_MW = MW;     // scattered-pool "m" tile width — matches the rest of the applet
 
 // ---- timing ----
 const BEAT      = 460;   // ms per cascade reveal step

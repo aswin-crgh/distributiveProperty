@@ -50,6 +50,14 @@
 .tile.dragging { transition:none; z-index:20; cursor:grabbing; box-shadow:0 16px 28px rgba(0,0,0,0.5); }
 .tile.draggable { cursor:grab; }
 .tile.draggable:hover { filter:brightness(1.08); }
+/* a mild, continuous pulse/wiggle on tiles still needing to move — stops the
+   instant a tile is picked up (dragging) or lands (placed, so "draggable" drops) */
+@keyframes tileWiggle {
+  0%, 100% { transform:scale(1) rotate(0deg); }
+  25%      { transform:scale(1.035) rotate(-2.5deg); }
+  75%      { transform:scale(1.035) rotate(2.5deg); }
+}
+.tile.draggable:not(.dragging) { animation:tileWiggle 1.6s ease-in-out infinite; }
 
 .pool-tile { cursor:pointer; }
 

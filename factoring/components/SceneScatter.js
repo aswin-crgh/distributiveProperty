@@ -79,7 +79,7 @@ const SceneScatter = ({ onDone }) => {
     const p = mPos(i);
     const delay = sub === "arranging" ? (i * 90) + "ms" : "0ms";
     els.push(React.createElement(Tile, {
-      key: "m" + i, x: p.x, y: p.y, w: arranged ? MW : POOL_MW, h: arranged ? U : POOL_U * 0.42, kind: "amber",
+      key: "m" + i, x: p.x, y: p.y, w: MW, h: U, kind: "amber",
       className: !arranged ? "pool-tile" : "",
       style: { zIndex: 3, transform: `rotate(${p.rot}deg)`, transitionDelay: delay }
     }));
@@ -89,7 +89,7 @@ const SceneScatter = ({ onDone }) => {
     const p = uPos(i);
     const delay = sub === "arranging" ? (M_COEF * 90 + i * 60) + "ms" : "0ms";
     els.push(React.createElement(Tile, {
-      key: "u" + i, x: p.x, y: p.y, w: arranged ? U : POOL_U, h: arranged ? U : POOL_U, kind: "blue",
+      key: "u" + i, x: p.x, y: p.y, w: U, h: U, kind: "blue",
       className: !arranged ? "pool-tile" : "",
       style: { zIndex: 3, transform: `rotate(${p.rot}deg)`, transitionDelay: delay }
     }));

@@ -13,9 +13,10 @@ const SceneDrag = ({ onDone }) => {
   const RIGHT = { x: 1050, y: 150, w: 780, h: 760 };
 
   // ---- mismatched "pile" geometry (LOCAL — relative to a board wrapper) ----
-  // centred in the board (matching how Scene 2 centres the same shape), with
-  // enough left margin for the overflow slot ("m" extends the row LEFTWARD)
-  const pileOx = 225, pileOy = 90;
+  // chosen so the FINAL rectangle (once all 4 overflow tiles land) sits dead
+  // centre of the 780×760 board — matched exactly in SceneReveal.js so the
+  // rectangle never jump-shifts across the scene transition.
+  const pileOx = 262, pileOy = 296;
   const uPileOx = pileOx + MW + GAP2;
   const homeLocal = (kind, i) => kind === "m"
     ? { x: pileOx, y: pileOy + i * (U + GAP2) }

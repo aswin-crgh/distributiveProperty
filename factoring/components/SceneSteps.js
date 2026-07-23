@@ -70,49 +70,60 @@ const SceneSteps = ({ onNext }) => {
     ));
   }
 
-  // ---- right: HCF line, dim ghost, and the live morphing expression ----
+  // ---- right: four reveals, each sitting beside its own step row on the
+  // left (never a single cluster) — 4m+6 (step1) stays put and IS the tap
+  // target through steps 1-3; HCF (step2) reveals alongside; the sum of
+  // products (step3) is a NEW line below it; factoring (step4) is a further
+  // NEW ("duplicate") line below THAT — the "before" of each step always
+  // stays visible once revealed, never overwritten in place.
   const els = [].concat(stepRows);
   const RX = 1505; // centre-x of the right-side algebra column
+  const ROW_TOP = [140, 330, 520, 710]; // matches the left step-rows' tops exactly
+  const R0 = ROW_TOP[0] + 45, R1 = ROW_TOP[1] + 45, R2 = ROW_TOP[2] + 45, R3 = ROW_TOP[3] + 45;
+  const COLW = 750, COLX = RX - COLW / 2;
+  const fingerTap = React.createElement("img", { src: "./assets/gifs/fingerTap.gif", className: "finger-tap-gif", style: { position: "absolute", right: "-20px", bottom: "-30px" } });
 
-  // dim ghost reference "4m + 6" — appears once step 1 is done, persists.
-  // the 4 and 6 highlight during step 1 (tying "identify coefficients and
-  // constants" to the actual digits), then fly up into the HCF bracket in step 2.
-  if (revealed >= 1) {
+  // row 0 (step 1): "4m + 6" — the tap target from the very start; the 4/6
+  // highlight in place on the first tap, then (once identified) the
+  // structural "m"/"+" dims so the coefficient/constant keep reading clearly.
+  // Stays the tap target through steps 1-3 (nothing about THIS line changes
+  // again until step 3 duplicates it below).
+  {
     const numCls = digitHi ? "pulse-3x" : "";
-    // the coefficient/constant themselves stay fully visible here (that's the
-    // whole point of "identify coefficients and constants") — only the
-    // structural "m" / "+" around them is dimmed, never the 4 or 6
+    const row0Tap = revealed < 3 && canTap;
+    const dimmed = revealed >= 1;
     els.push(React.createElement("div", {
-      key: "ghost", className: "eq-wrap soft-in", style: { top: "300px", left: "1130px", width: "750px", position: "absolute" }
+      key: "row0", className: row0Tap ? "tap-target-wrap" : "", onClick: row0Tap ? tapNext : undefined,
+      style: { position: "absolute", left: COLX + "px", top: R0 + "px", width: COLW + "px", display: "flex", justifyContent: "center" }
     },
-      React.createElement("div", { className: "eq-side", style: { fontSize: "52px", background: "transparent" } },
+      React.createElement("div", { className: "eq-side", style: { fontSize: "68px" } },
         React.createElement("span", { style: { color: TERM_COLOR } },
           React.createElement("span", { className: numCls, style: { display: "inline-block" } }, String(M_COEF)),
-          React.createElement("span", { style: { opacity: 0.34 } }, "m")),
-        React.createElement("span", { style: { opacity: 0.34 } }, " + "),
+          React.createElement("span", { style: dimmed ? { opacity: 0.34 } : null }, "m")),
+        React.createElement("span", { style: dimmed ? { opacity: 0.34 } : null }, NB + "+" + NB),
         React.createElement("span", { className: numCls, style: { color: UNIT_COLOR, display: "inline-block" } }, String(CONST))
-      )
+      ),
+      row0Tap ? fingerTap : null
     ));
   }
 
-  // the two flying digits — approximate flight from the ghost's "4"/"6"
-  // positions up into the HCF bracket's "4"/"6" slots (a curved arc-hop)
+  // the two flying digits — from row 0's "4"/"6" down into row 1's HCF bracket
   if (hcfFly) {
     els.push(React.createElement("div", {
-      key: "fly4", style: { position: "absolute", left: RX - 95 + "px", top: "195px", fontSize: "60px", fontWeight: 800, color: TERM_COLOR }
-    }, React.createElement("span", { className: "arc-hop", style: { display: "inline-block", "--dx": "-45px", "--dy": "115px" } }, String(M_COEF))));
+      key: "fly4", style: { position: "absolute", left: RX - 95 + "px", top: R1 + 15 + "px", fontSize: "60px", fontWeight: 800, color: TERM_COLOR }
+    }, React.createElement("span", { className: "arc-hop", style: { display: "inline-block", "--dx": "-45px", "--dy": (R0 - R1) + "px" } }, String(M_COEF))));
     els.push(React.createElement("div", {
-      key: "fly6", style: { position: "absolute", left: RX + 5 + "px", top: "195px", fontSize: "60px", fontWeight: 800, color: UNIT_COLOR }
-    }, React.createElement("span", { className: "arc-hop", style: { display: "inline-block", "--dx": "65px", "--dy": "115px" } }, String(CONST))));
+      key: "fly6", style: { position: "absolute", left: RX + 5 + "px", top: R1 + 15 + "px", fontSize: "60px", fontWeight: 800, color: UNIT_COLOR }
+    }, React.createElement("span", { className: "arc-hop", style: { display: "inline-block", "--dx": "65px", "--dy": (R0 - R1) + "px" } }, String(CONST))));
   }
 
-  // HCF(4,6) = 2 — appears once step 2 is done (its digits render invisible
-  // while the flying clones are still en route, so nothing doubles up)
+  // row 1 (step 2): HCF(4,6) = 2 — appears once step 2 is done (its digits
+  // render invisible while the flying clones are still en route)
   if (revealed >= 2) {
     const hcfNumCls = hcfPulse ? "pulse-3x" : "";
     els.push(React.createElement("div", {
       key: "hcf", className: "info-bubble",
-      style: { left: RX + "px", top: "180px", background: "transparent", boxShadow: "none", fontSize: "60px", fontWeight: 800, opacity: hcfFly ? 0 : 1, whiteSpace: "nowrap" }
+      style: { left: RX + "px", top: R1 + "px", background: "transparent", boxShadow: "none", fontSize: "60px", fontWeight: 800, opacity: hcfFly ? 0 : 1, whiteSpace: "nowrap" }
     },
       React.createElement("span", { className: !hcfFly ? "soft-in" : "", style: { display: "inline-block" } },
         React.createElement("span", null, "HCF("),
@@ -124,53 +135,45 @@ const SceneSteps = ({ onNext }) => {
     ));
   }
 
-  // the LIVE expression — morphs: "4m + 6" → "2×2m" (+pause) "+2×3" → "2(2m+3)"
-  // it is ALSO the tap target for the next step (dashed pulsing box), matching
-  // the deck exactly — never the left-side step list.
-  let live;
-  if (revealed < 3) {
-    live = React.createElement("div", { className: "eq-side", style: { fontSize: "68px" } },
-      React.createElement("span", { style: { color: TERM_COLOR } }, M_COEF + "m"),
-      React.createElement("span", null, NB + "+" + NB),
-      React.createElement("span", { style: { color: UNIT_COLOR } }, String(CONST))
-    );
-  } else if (revealed === 3) {
+  // row 2 (step 3): the sum of products — a NEW line below rows 0/1,
+  // term-by-term staggered. Becomes the tap target once fully shown; step 4
+  // duplicates IT onto row 3 below rather than overwriting it in place.
+  if (revealed >= 3) {
     const parts = [React.createElement("span", { key: "t1", className: "row-grow", style: { color: TERM_COLOR, display: "inline-flex" } }, HCF + NB + "×" + NB + M_PER_ROW + "m")];
     if (term3Phase >= 2) {
       parts.push(React.createElement("span", { key: "op" }, NB + "+" + NB));
       parts.push(React.createElement("span", { key: "t2", className: "row-grow", style: { color: UNIT_COLOR, display: "inline-flex" } }, HCF + NB + "×" + NB + C_PER_ROW));
     }
-    live = React.createElement("div", { className: "eq-side", style: { fontSize: "68px" } }, parts);
-  } else if (step4Fly) {
-    // both "2"s visibly arc outward from their terms and converge into one —
-    // the leading 2 is hidden until they land
-    live = React.createElement("div", { className: "eq-side", style: { fontSize: "68px", position: "relative" } },
-      React.createElement("span", { style: { opacity: 0 } }, String(HCF)),
-      React.createElement("span", null, NB + "(" + NB),
-      React.createElement("span", { style: { color: TERM_COLOR } }, M_PER_ROW + "m"),
-      React.createElement("span", null, NB + "+" + NB),
-      React.createElement("span", { style: { color: UNIT_COLOR } }, String(C_PER_ROW)),
-      React.createElement("span", null, NB + ")"),
-      React.createElement("span", { className: "arc-hop", style: { position: "absolute", left: "0px", top: "0px", "--dx": "10px", "--dy": "-55px" } }, String(HCF)),
-      React.createElement("span", { className: "arc-hop", style: { position: "absolute", left: "0px", top: "0px", "--dx": "220px", "--dy": "-55px" } }, String(HCF))
-    );
-  } else {
-    live = React.createElement("div", { className: "eq-side", style: { fontSize: "68px" } },
-      React.createElement("span", null, String(HCF)),
-      React.createElement("span", null, NB + "(" + NB),
-      React.createElement("span", { style: { color: TERM_COLOR } }, M_PER_ROW + "m"),
-      React.createElement("span", null, NB + "+" + NB),
-      React.createElement("span", { style: { color: UNIT_COLOR } }, String(C_PER_ROW)),
-      React.createElement("span", null, NB + ")")
-    );
+    const row2Tap = revealed === 3 && canTap;
+    els.push(React.createElement("div", {
+      key: "row2", className: row2Tap ? "tap-target-wrap" : "", onClick: row2Tap ? tapNext : undefined,
+      style: { position: "absolute", left: COLX + "px", top: R2 + "px", width: COLW + "px", display: "flex", justifyContent: "center" }
+    },
+      React.createElement("div", { className: "eq-side", style: { fontSize: "68px" } }, parts),
+      row2Tap ? fingerTap : null
+    ));
   }
-  els.push(React.createElement("div", {
-    key: "live", className: canTap ? "tap-target-wrap" : "", onClick: canTap ? tapNext : undefined,
-    style: { position: "absolute", left: (RX - 375) + "px", top: "460px", width: "750px", display: "flex", justifyContent: "center" }
-  },
-    live,
-    canTap ? React.createElement("img", { src: "./assets/gifs/fingerTap.gif", className: "finger-tap-gif", style: { position: "absolute", right: "-20px", bottom: "-30px" } }) : null
-  ));
+
+  // row 3 (step 4): factor out the HCF — a DUPLICATE line below row 2 (row 2
+  // stays put, untouched); both "2"s visibly arc-converge down from row 2's
+  // two "2 ×" chips into the one leading factor here — Factoring as the
+  // visible, literal reverse of row 2's distribute.
+  if (revealed >= 4) {
+    els.push(React.createElement("div", {
+      key: "row3", style: { position: "absolute", left: COLX + "px", top: R3 + "px", width: COLW + "px", display: "flex", justifyContent: "center" }
+    },
+      React.createElement("div", { className: "eq-side" + (step4Fly ? "" : " soft-in"), style: { fontSize: "68px", position: "relative" } },
+        React.createElement("span", { style: { opacity: step4Fly ? 0 : 1 } }, String(HCF)),
+        React.createElement("span", null, NB + "(" + NB),
+        React.createElement("span", { style: { color: TERM_COLOR } }, M_PER_ROW + "m"),
+        React.createElement("span", null, NB + "+" + NB),
+        React.createElement("span", { style: { color: UNIT_COLOR } }, String(C_PER_ROW)),
+        React.createElement("span", null, NB + ")"),
+        step4Fly ? React.createElement("span", { className: "arc-hop", style: { position: "absolute", left: "0px", top: "0px", "--dx": "10px", "--dy": (R2 - R3) + "px" } }, String(HCF)) : null,
+        step4Fly ? React.createElement("span", { className: "arc-hop", style: { position: "absolute", left: "0px", top: "0px", "--dx": "220px", "--dy": (R2 - R3) + "px" } }, String(HCF)) : null
+      )
+    ));
+  }
 
   const instr = overlay2 ? "" : (revealed < 4 ? STEP_INSTR[revealed] : ui.stepsDoneInstruction);
 

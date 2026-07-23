@@ -9,8 +9,9 @@ const SceneReveal = ({ onNext }) => {
   const LEFT = { x: 90, y: 150, w: 780, h: 760 };
   const RIGHT = { x: 1050, y: 150, w: 780, h: 760 };
 
-  // static mismatched pile (LEFT reference board) — same geometry as Scene 3
-  const pileOx = 90, pileOy = 90;
+  // static mismatched pile (LEFT reference board) — must match SceneDrag.js's
+  // pileOx/pileOy exactly, so the frozen reference doesn't jump-shift on entry
+  const pileOx = 262, pileOy = 296;
   const uPileOx = pileOx + MW + GAP2;
   const pileTiles = () => {
     const els = [];
@@ -19,8 +20,10 @@ const SceneReveal = ({ onNext }) => {
     return els;
   };
 
-  // completed rectangle (RIGHT board) — 2 rows × [m,m,u,u,u]
-  const rectOx = 80, rectOy = 260;
+  // completed rectangle (RIGHT board) — 2 rows × [m,m,u,u,u]; matches exactly
+  // where SceneDrag.js's overflow tiles land (dead-centre of the 780×760
+  // board), so the rectangle is already sitting still the instant this scene mounts
+  const rectOx = 84, rectOy = 296;
   const rowW = M_PER_ROW * MW + C_PER_ROW * U + (M_PER_ROW + C_PER_ROW - 1) * GAP2;
   const rowH = U;
   const gridH = HCF * U + (HCF - 1) * GAP2;
