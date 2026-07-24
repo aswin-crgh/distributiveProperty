@@ -64,7 +64,7 @@ const SceneReveal = ({ onNext }) => {
     key: "lval", className: "value-readout", style: { left: LEFT.x + LEFT.w / 2 + "px", top: LEFT.y + 40 + "px", transform: "translateX(-50%)" }
   },
     React.createElement("span", null, ui.valueOnBoard),
-    React.createElement("span", { style: { color: TERM_COLOR } }, M_COEF + " m"),
+    React.createElement("span", { style: { color: TERM_COLOR } }, M_COEF + " ", React.createElement("span", { className: "eq-var" }, "m")),
     React.createElement("span", null, " + "),
     React.createElement("span", { style: { color: UNIT_COLOR } }, String(CONST))
   ));
@@ -103,12 +103,12 @@ const SceneReveal = ({ onNext }) => {
   const val2 = [React.createElement("span", { key: "l" }, ui.valueOnBoard)];
   if (showValue2) {
     val2.push(React.createElement("span", { key: "m" }, HCF + NB + "×" + NB + "(" + NB));
-    val2.push(React.createElement("span", { key: "b", style: { color: TERM_COLOR } }, M_PER_ROW + "m"));
+    val2.push(React.createElement("span", { key: "b", style: { color: TERM_COLOR } }, String(M_PER_ROW), React.createElement("span", { className: "eq-var" }, "m")));
     val2.push(React.createElement("span", { key: "p" }, NB + "+" + NB));
     val2.push(React.createElement("span", { key: "a", style: { color: UNIT_COLOR } }, String(C_PER_ROW)));
     val2.push(React.createElement("span", { key: "r" }, NB + ")"));
   } else {
-    val2.push(React.createElement("span", { key: "b", style: { color: TERM_COLOR } }, M_COEF + " m"));
+    val2.push(React.createElement("span", { key: "b", style: { color: TERM_COLOR } }, M_COEF + " ", React.createElement("span", { className: "eq-var" }, "m")));
     val2.push(React.createElement("span", { key: "p" }, " + "));
     val2.push(React.createElement("span", { key: "a", style: { color: UNIT_COLOR } }, String(CONST)));
   }

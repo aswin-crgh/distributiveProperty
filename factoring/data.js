@@ -37,7 +37,7 @@
         // ---- Scene 4 — reveal dimensions + area ----
         revealInstruction: "Tap the rectangle to see its side lengths",
         overlay1Text: "The 2 here is a factor of both 4 and 6 — the numbers in our expression's terms!<br/><br/><span class=\"overlay-tap-hint\">Tap anywhere to continue</span>",
-        rectangleSidesText: "Side lengths 2 and ( 2 m + 3 ).<br/>Area = the value on the board!",
+        rectangleSidesText: "Side lengths 2 and ( 2 <span class=\"eq-var\">m</span> + 3 ).<br/>Area = the value on the board!",
         revealAreaBtn: "Reveal Area",
         revealAreaInstruction: "Tap ‘Reveal’ to express value in terms of area of rectangle",
         sameValueHeader: "We now have the same value on board represented in 2 different ways!",
@@ -124,7 +124,7 @@
         // ---- Scene 4 — reveal dimensions + area ----
         revealInstruction: "Ketuk persegi panjang untuk melihat panjang sisi-sisinya",
         overlay1Text: "Angka 2 di sini adalah faktor dari 4 dan 6 — bilangan pada suku-suku ekspresi kita!<br/><br/><span class=\"overlay-tap-hint\">Ketuk di mana saja untuk melanjutkan</span>",
-        rectangleSidesText: "Panjang sisi 2 dan ( 2 m + 3 ).<br/>Luas = nilai di papan!",
+        rectangleSidesText: "Panjang sisi 2 dan ( 2 <span class=\"eq-var\">m</span> + 3 ).<br/>Luas = nilai di papan!",
         revealAreaBtn: "Tampilkan Luas",
         revealAreaInstruction: "Ketuk ‘Tampilkan’ untuk menyatakan nilai sebagai luas persegi panjang",
         sameValueHeader: "Sekarang kita punya nilai yang sama di papan, dinyatakan dengan 2 cara berbeda!",

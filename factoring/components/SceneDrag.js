@@ -154,7 +154,7 @@ const SceneDrag = ({ onDone }) => {
     key, className: "value-readout", style: { left: bw / 2 + "px", top: 40 + "px", transform: "translateX(-50%)" }
   },
     React.createElement("span", null, ui.valueOnBoard),
-    React.createElement("span", { style: { color: TERM_COLOR } }, M_COEF + " m"),
+    React.createElement("span", { style: { color: TERM_COLOR } }, M_COEF + " ", React.createElement("span", { className: "eq-var" }, "m")),
     React.createElement("span", null, " + "),
     React.createElement("span", { style: { color: UNIT_COLOR } }, String(CONST))
   );

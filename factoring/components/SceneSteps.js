@@ -99,7 +99,7 @@ const SceneSteps = ({ onNext }) => {
       React.createElement("div", { className: "eq-side", style: { fontSize: "68px" } },
         React.createElement("span", { style: { color: TERM_COLOR } },
           React.createElement("span", { className: numCls, style: { display: "inline-block" } }, String(M_COEF)),
-          React.createElement("span", { style: dimmed ? { opacity: 0.34 } : null }, "m")),
+          React.createElement("span", { className: "eq-var", style: dimmed ? { opacity: 0.34 } : null }, "m")),
         React.createElement("span", { style: dimmed ? { opacity: 0.34 } : null }, NB + "+" + NB),
         React.createElement("span", { className: numCls, style: { color: UNIT_COLOR, display: "inline-block" } }, String(CONST))
       ),
@@ -139,7 +139,7 @@ const SceneSteps = ({ onNext }) => {
   // term-by-term staggered. Becomes the tap target once fully shown; step 4
   // duplicates IT onto row 3 below rather than overwriting it in place.
   if (revealed >= 3) {
-    const parts = [React.createElement("span", { key: "t1", className: "row-grow", style: { color: TERM_COLOR, display: "inline-flex" } }, HCF + NB + "×" + NB + M_PER_ROW + "m")];
+    const parts = [React.createElement("span", { key: "t1", className: "row-grow", style: { color: TERM_COLOR, display: "inline-flex" } }, HCF + NB + "×" + NB + M_PER_ROW, React.createElement("span", { className: "eq-var" }, "m"))];
     if (term3Phase >= 2) {
       parts.push(React.createElement("span", { key: "op" }, NB + "+" + NB));
       parts.push(React.createElement("span", { key: "t2", className: "row-grow", style: { color: UNIT_COLOR, display: "inline-flex" } }, HCF + NB + "×" + NB + C_PER_ROW));
@@ -165,7 +165,7 @@ const SceneSteps = ({ onNext }) => {
       React.createElement("div", { className: "eq-side" + (step4Fly ? "" : " soft-in"), style: { fontSize: "68px", position: "relative" } },
         React.createElement("span", { style: { opacity: step4Fly ? 0 : 1 } }, String(HCF)),
         React.createElement("span", null, NB + "(" + NB),
-        React.createElement("span", { style: { color: TERM_COLOR } }, M_PER_ROW + "m"),
+        React.createElement("span", { style: { color: TERM_COLOR } }, String(M_PER_ROW), React.createElement("span", { className: "eq-var" }, "m")),
         React.createElement("span", null, NB + "+" + NB),
         React.createElement("span", { style: { color: UNIT_COLOR } }, String(C_PER_ROW)),
         React.createElement("span", null, NB + ")"),

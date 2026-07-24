@@ -42,7 +42,7 @@ const SceneLoop = ({ onNext }) => {
         return React.createElement("div", { className: "eq-side", style: { fontSize: "88px", position: "relative" } },
           React.createElement("span", { style: { opacity: 0 } }, String(HCF)),
           React.createElement("span", null, NB + "(" + NB),
-          React.createElement("span", { style: { color: TERM_COLOR } }, M_PER_ROW + "m"),
+          React.createElement("span", { style: { color: TERM_COLOR } }, String(M_PER_ROW), React.createElement("span", { className: "eq-var" }, "m")),
           React.createElement("span", null, NB + "+" + NB),
           React.createElement("span", { style: { color: UNIT_COLOR } }, String(C_PER_ROW)),
           React.createElement("span", null, NB + ")"),
@@ -53,7 +53,7 @@ const SceneLoop = ({ onNext }) => {
       return React.createElement("div", { className: "eq-side", style: { fontSize: "88px" } },
         React.createElement("span", null, String(HCF)),
         React.createElement("span", null, NB + "(" + NB),
-        React.createElement("span", { style: { color: TERM_COLOR } }, M_PER_ROW + "m"),
+        React.createElement("span", { style: { color: TERM_COLOR } }, String(M_PER_ROW), React.createElement("span", { className: "eq-var" }, "m")),
         React.createElement("span", null, NB + "+" + NB),
         React.createElement("span", { style: { color: UNIT_COLOR } }, String(C_PER_ROW)),
         React.createElement("span", null, NB + ")"));
@@ -64,13 +64,13 @@ const SceneLoop = ({ onNext }) => {
       const cls = arcing === "out" ? "arc-hop" : "";
       return React.createElement("div", { className: "eq-side", style: { fontSize: "76px" } },
         React.createElement("span", { className: cls, style: { display: "inline-block", "--dx": DX1 + "px", "--dy": "0px" } }, HCF + NB + "×" + NB),
-        React.createElement("span", { style: { color: TERM_COLOR } }, M_PER_ROW + "m"),
+        React.createElement("span", { style: { color: TERM_COLOR } }, String(M_PER_ROW), React.createElement("span", { className: "eq-var" }, "m")),
         React.createElement("span", null, NB + "+" + NB),
         React.createElement("span", { className: cls, style: { display: "inline-block", "--dx": DX2 + "px", "--dy": "0px" } }, HCF + NB + "×" + NB),
         React.createElement("span", { style: { color: UNIT_COLOR } }, String(C_PER_ROW)));
     }
     return React.createElement("div", { className: "eq-side soft-in", style: { fontSize: "88px" } },
-      React.createElement("span", { style: { color: TERM_COLOR } }, M_COEF + "m"),
+      React.createElement("span", { style: { color: TERM_COLOR } }, String(M_COEF), React.createElement("span", { className: "eq-var" }, "m")),
       React.createElement("span", null, NB + "+" + NB),
       React.createElement("span", { style: { color: UNIT_COLOR } }, String(CONST)));
   };

@@ -107,7 +107,7 @@
 .legend-eq { font-size:var(--fs-body); font-weight:bold; color:var(--ink); }
 .legend-label { font-size:var(--fs-body); font-weight:bold; color:var(--ink); line-height:1.05; }
 .legend-label .unit { display:block; }
-.legend-label .varname { font-family:"Times New Roman", Georgia, serif; font-style:italic; }
+.legend-label .varname { font-family:"Times New Roman", Georgia, serif; font-style:italic; font-weight:bold; }
 
 /* ---- action buttons (Rearrange / Duplicate / Reveal Area) ---- */
 .btn-action {

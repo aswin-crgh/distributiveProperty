@@ -102,7 +102,7 @@ const SceneScatter = ({ onDone }) => {
     },
       React.createElement("div", { className: "value-readout soft-in", style: { position: "static" } },
         React.createElement("span", null, ui.valueOnBoard),
-        React.createElement("span", { style: { color: TERM_COLOR } }, M_COEF + " m"),
+        React.createElement("span", { style: { color: TERM_COLOR } }, M_COEF + " ", React.createElement("span", { className: "eq-var" }, "m")),
         React.createElement("span", null, " + "),
         React.createElement("span", { style: { color: UNIT_COLOR } }, String(CONST))
       )
